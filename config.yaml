@@ -1,0 +1,49 @@
+logging:
+  version: 1
+  disable_existing_loggers: true
+
+  formatters:
+    brief:
+      format: '%(message)s'
+    default:
+      format: '%(asctime)s %(levelname)-8s %(name)-15s %(message)s'
+      datefmt: '%Y-%m-%d %H:%M:%S'
+    standard:
+        format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    error:
+        format: "%(levelname)s <PID %(process)d:%(processName)s> %(name)s.%(funcName)s(): %(message)s"
+
+  handler:
+    console:
+        class: logging.StreamHandler
+        level: INFO
+        formatter: standard
+        stream: ext://sys.stderr
+    console_err:
+        class: logging.StreamHandler
+        level: ERROR
+        formatter: error
+        stream: ext://sys.stderr
+
+  loggers:
+    app:
+        level: INFO
+        handlers: [console_err]
+        propogate: no
+    api:
+        level: INFO
+        handlers: [console]
+        propogate: no
+
+  root:
+    level: NOTSET
+    handlers: [console]
+    propogate: yes
+
+application:
+  version: 0.0.1
+  project: 'template'
+  copyright: '2023, Author'
+  author: 'Author'
+
+  database_conn_string: sqlite:///database.db

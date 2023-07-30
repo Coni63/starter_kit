@@ -1,0 +1,3 @@
+F:\admin\PycharmProjects\Python_Scripts\cookie_cutter\src
+<class 'app.module1.infrastructure.models.item_model.ItemModel'>
+MetaData()

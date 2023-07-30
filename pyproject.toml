@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "template"
+version = "0.1.0"
+description = "Cookie-cutter template with clean starter project with fastAPI and generic requirements"
+authors = ["nicolas <mine.nicolas@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+sqlalchemy = "^2.0.19"
+alembic = "^1.11.1"
+fastapi = "^0.100.1"
+uvicorn = {extras = ["standard"], version = "^0.23.1"}
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.3.3"
+coverage = "^7.2.7"
+
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
