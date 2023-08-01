@@ -22,17 +22,18 @@ This is a starter template project for Python that comes preconfigured with esse
 - [x] pre-commits
 - [x] fastapi
 - [x] Sphinx
-- [ ] Tests
-- [ ] Coverage
+- [x] Tests
+- [x] Coverage
 - [x] sqlalchemy
 - [x] alembic
+- [x] End-to-end tests for default Item app
 - [ ] documentation of the project
 - [ ] make cookie-cutter
 - [ ] Docker build
 - [ ] Migration to SQLModel (later stage)
 
-
 ## Prerequisites
+
 - Python 3.9 or higher installed on your system. This project is set on 3.11
 
 ## Installation
@@ -86,7 +87,7 @@ This configuration is parsed when loading `setup.py` but the setup file also set
     ```bash
     alembic revision --autogenerate -m "create account table"
     alembic upgrade head  # only if you are sure about your migration :D
-    ```
+    ```P
 
 3. Set the documentation sphinx
 
@@ -95,6 +96,26 @@ This configuration is parsed when loading `setup.py` but the setup file also set
    - create a new rst file and populate it either with automodule/autoclass
    - add it to the index.rst (refer to module1.rst)
    - Of course you can use the full power of sphinx, this is just the minimal step
+
+4. Run tests
+
+The project being split between `/src/`and `/tests/` and the application's cwd is `src`, ze first need to add src to the PATH. Then tests can be run as usual:
+```bash
+set PYTHONPATH=%PYTHONPATH%;./src     # for Windows
+export PYTHONPATH=$PYTHONPATH:./src   # for Linux
+
+python -m unittest discover tests
+python -m unittest discover tests.sub_test.script_test.ClassTest.method_test
+```
+
+The coverage is also included by replacing `unitest` by `coverage`:
+```bash
+set PYTHONPATH=%PYTHONPATH%;./src     # for Windows
+export PYTHONPATH=$PYTHONPATH:./src   # for Linux
+
+coverage run -m unittest discover
+```
+
 
 ## Serve
 
