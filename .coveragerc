@@ -7,6 +7,8 @@ branch = True
 source =
     src/
     tests/
+omit =
+    *\__init__.py
 
 [report]
 ; Regexes for lines to exclude from consideration

@@ -10,15 +10,15 @@ from sqlalchemy import create_engine
 
 
 def load_config() -> dict:
-    print(__file__)
     file = Path(__file__).parent.parent / "config.yaml"
-    print(file)
     with open(file) as f:
         config = yaml.safe_load(f.read())
     return config
 
 
 def setupLogging(logging_config: dict):
+    if logging_config == {}:
+        return
     logging.config.dictConfig(logging_config)
 
 
