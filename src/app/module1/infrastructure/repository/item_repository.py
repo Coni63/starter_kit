@@ -15,7 +15,8 @@ class ItemRepository:
         :param id: id of the item
         :return: the item object or None if not found
         """
-        record = self.session.query(ItemModel).filter(Item.id == id).first()
+        record = self._get_by_id(id)
+
         if record is None:
             return None
 
@@ -46,6 +47,13 @@ class ItemRepository:
         :param item: id of the item
         :return: if the object is deleted
         """
+        record = self._get_by_id(id)
+
+        if record is None:
+            return False
+
+        self.session.delete(record)
+        self.session.commit()
         return True
 
     def update_item(self, id: int, **kwargs) -> Item:
@@ -55,7 +63,7 @@ class ItemRepository:
         :param kwargs: all attributes to patch
         :return: the update instance
         """
-        record = self.session.query(ItemModel).filter(Item.id == id).first()
+        record = self._get_by_id(id)
 
         if record is None:
             return None
@@ -66,3 +74,11 @@ class ItemRepository:
 
         self.session.commit()
         return record.to_pydantic_object()
+
+    def _get_by_id(self, id: int) -> ItemModel:
+        """Private method for getting the ItemModel associated to an id. Used in multiple methods
+
+        :param id: id of the record
+        :return: the ItemModel instance
+        """
+        return self.session.query(ItemModel).filter(ItemModel.id == id).first()
