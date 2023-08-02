@@ -133,3 +133,13 @@ class TestItemRepository(unittest.TestCase):
         self.assertEqual(result.id, 1)
         self.assertEqual(result.title, "Updated Item")
         self.assertEqual(result.description, "Description 1")
+
+    def test_update_missing_item(self):
+        # Configure the mock session to return the mock item when item does not exist
+        self.mock_session.query.return_value.filter.return_value.first.return_value = None
+
+        # Call the method under test with the ID of the item we want to update (ID 1) and the attributes to patch
+        result = self.item_repository.update_item(999, title="Updated Item")
+
+        # Assert that the result is an instance of Item (assuming Item is your model class)
+        self.assertIsNone(result)

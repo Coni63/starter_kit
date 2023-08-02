@@ -1,44 +1,47 @@
 logging:
   version: 1
-  disable_existing_loggers: true
+  disable_existing_loggers: False
 
   formatters:
-    brief:
-      format: '%(message)s'
-    default:
-      format: '%(asctime)s %(levelname)-8s %(name)-15s %(message)s'
-      datefmt: '%Y-%m-%d %H:%M:%S'
-    standard:
-        format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    error:
-        format: "%(levelname)s <PID %(process)d:%(processName)s> %(name)s.%(funcName)s(): %(message)s"
+      simple:
+          format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+          datefmt: '%Y-%m-%d %H:%M:%S'
+      detailed:
+          format: "%(levelname)s <PID %(process)d:%(processName)s> %(name)s.%(funcName)s(): %(message)s"
+          datefmt: '%Y-%m-%d %H:%M:%S'
+  handlers:
+      console:
+          class: logging.StreamHandler
+          level: DEBUG
+          formatter: detailed
+          stream: ext://sys.stdout
 
-  handler:
-    console:
-        class: logging.StreamHandler
-        level: INFO
-        formatter: standard
-        stream: ext://sys.stderr
-    console_err:
-        class: logging.StreamHandler
-        level: ERROR
-        formatter: error
-        stream: ext://sys.stderr
+      file:
+          class: logging.FileHandler
+          level: INFO
+          formatter: detailed
+          filename: myapp.log
+          mode: a
 
   loggers:
-    app:
-        level: INFO
-        handlers: [console_err]
-        propogate: no
-    api:
-        level: INFO
-        handlers: [console]
-        propogate: no
+      development:
+          level: DEBUG
+          handlers: [console]
+          propagate: no
+
+      staging:
+          level: INFO
+          handlers: [console, file]
+          propagate: no
+
+      production:
+          level: WARNING
+          handlers: [file]
+          propagate: no
 
   root:
-    level: NOTSET
-    handlers: [console]
-    propogate: yes
+      level: DEBUG
+      handlers: [console]
 
 application:
   version: 0.0.1
