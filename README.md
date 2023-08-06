@@ -28,7 +28,7 @@ This is a starter template project for Python that comes preconfigured with esse
 - [x] alembic
 - [x] write some starter tests
 - [x] documentation of the project
-- [ ] Docker build
+- [x] Docker build
 - [ ] make cookie-cutter
 - [ ] Migration to SQLModel (later stage)
 
@@ -131,7 +131,13 @@ coverage run -m unittest discover
 
 - Build Docker Image
     ```bash
-    TBD
+    poetry export -f requirements.txt -o requirements.txt  # If there is changes of dependancies, you can export the requirements with this command
+
+    # build a new image with the updated app
+    docker build --pull --rm -f "Dockerfile" -t image_name:0.1 "."
+
+    # run the image on port 8000
+    docker run --rm -d -p 8000:8000/tcp image_name:0.1
     ```
 
 - Build the Documentation
