@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-from api.module1 import routes as routes1
-from api.module2 import routes as routes2
+from api.{{cookiecutter.module_name}} import routes as routes1
 from fastapi import FastAPI
 
 description = """
@@ -11,8 +10,7 @@ Describe what you API is supposed to be used to do.
 """
 
 openapi_tags = [
-    routes1.openapi_tag,
-    routes2.openapi_tag,
+    routes1.openapi_tag,  # add more modules if needed
 ]
 
 app = FastAPI(
@@ -32,5 +30,4 @@ app = FastAPI(
     openapi_tags=openapi_tags,
 )
 
-app.include_router(routes1.router)
-app.include_router(routes2.router)
+app.include_router(routes1.router)  # add more modules if needed
