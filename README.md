@@ -5,14 +5,14 @@
 This is a starter template project for Python that comes preconfigured with essential libraries, enabling you to quickly kickstart your development process. It combines FastAPI, SQLAlchemy, Alembic, Sphinx, pre-commit, unittest, and coverage to provide a robust foundation for building web applications with a focus on API development.
 
 ## Features
-- Poetry for dependancy management
-- FastAPI for rapid API development with automatic interactive documentation.
-- SQLAlchemy for powerful and flexible ORM (Object-Relational Mapping) to interact with databases.
-- Alembic for easy database migrations and schema version control.
-- Sphinx for generating detailed API documentation.
-- Pre-commit for automatically checking code quality and applying formatting standards.
-- unittest for writing unit tests to ensure the reliability of your code.
-- coverage for measuring code test coverage.
+- **Poetry** for dependancy management
+- **FastAPI** for rapid API development with automatic interactive documentation.
+- **SQLAlchemy** for powerful and flexible ORM (Object-Relational Mapping) to interact with databases.
+- **Alembic** for easy database migrations and schema version control.
+- **Sphinx** for generating detailed API documentation.
+- **Pre-commit** for automatically checking code quality and applying formatting standards.
+- **unittest** for writing unit tests to ensure the reliability of your code.
+- **coverage** for measuring code test coverage.
 
 ### Current Status
 
@@ -26,10 +26,10 @@ This is a starter template project for Python that comes preconfigured with esse
 - [x] Coverage
 - [x] sqlalchemy
 - [x] alembic
-- [x] End-to-end tests for default Item app
-- [ ] documentation of the project
-- [ ] make cookie-cutter
+- [x] write some starter tests
+- [x] documentation of the project
 - [ ] Docker build
+- [ ] make cookie-cutter
 - [ ] Migration to SQLModel (later stage)
 
 ## Prerequisites
@@ -44,17 +44,20 @@ This is a starter template project for Python that comes preconfigured with esse
     ```
     rm -r .git
     git init
-    git remote add origin ...
+    git remote add origin <path/to/git>
     ```
 1. Create a virtual environment:
     ```bash
-    poetry config virtualenvs.in-project  # recommended
+    poetry config virtualenvs.in-project true  # recommended
     poetry install
     ```
 2. Add hooks to the git project
     ```bash
     pre-commit install
     ```
+2. Rename modules as required (update imports)
+3. In `src/api/module*/routes.py`, update the `openapi_tag` and `url_prefix` in addition of updating routes as expected.
+3. Update the configuration file (see next part)
 
 ## Configuration
 
@@ -80,14 +83,14 @@ This configuration is parsed when loading `setup.py` but the setup file also set
 1. Run pre-commit check regularly:
     ```bash
     pre-commit run
-    pre-commit run --all  # use on the first run at least
+    pre-commit run --all-files  # use on the first run at least
     ```
 
 2. If you change a model or create a new one:
     ```bash
     alembic revision --autogenerate -m "create account table"
     alembic upgrade head  # only if you are sure about your migration :D
-    ```P
+    ```
 
 3. Set the documentation sphinx
 
@@ -155,6 +158,29 @@ The infrastructure/database directory is where the database-related code resides
 
 ### Application
 The application directory contains the use cases and application services that orchestrate the interactions between the various domain models. Use cases represent specific actions or business processes in the application, while application services act as the bridge between the presentation layer and the domain layer.
+
+### API
+The API part of the presentation layer (handled in `src/api`) is only an access point for the application. This can be replaced by any other solutions such as UI or schedulled scripts for examples. As a result, it is responsible only to handle authentication/authorization and handling errors. The logic of the application is handled in the application layer of the app.
+
+### Example with E-Commerce website
+
+In an e-commerce website following the Domain-Driven Design (DDD) architecture, each layer has its distinct responsibilities:
+
+- The Presentation Layer focuses on user interactions and rendering:
+    - Provides all the API used by the website to handle items, customers, orders
+    - The rendering is handled mainly by the front that is not included in this project
+- The Application Layer coordinates user requests and enforces business workflows
+    - Orchestrating interactions between multiple Domain Layer components to fulfill user requests, like creating an order, updating inventory, and calculating shipping costs.
+    - Implementing business rules and workflow logic that govern the e-commerce processes.
+- The Domain Layer encapsulates business logic and domain entities:
+    - Defining and managing domain entities like Product, Cart, Order, and Customer, ensuring business rules are enforced within each entity.
+    - Defining aggregates, which are consistency boundaries that enforce transactional integrity.
+    - Implementing domain services for complex operations that do not naturally fit within an entity.
+- The Infrastructure Layer handles technical aspects and external integrations.
+    - Handle the communication with databases or external data sources for domain entities.
+    - Handling communication with external services like payment gateways, shipping providers, and email services.
+    - Managing caching, logging, and other cross-cutting concerns.
+
 
 ### Conclusion
 Following the Domain-Driven Design structure in this starter template project can significantly enhance the maintainability, scalability, and extensibility of your Python application. By keeping the core domain logic separate from the infrastructure and application layers, you create a robust foundation for building and evolving complex software systems with ease.
